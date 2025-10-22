@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Person der Woche</title>
+  <title>Prediger der Woche</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -34,18 +34,24 @@
 <body>
   <h1>👤 Person der Woche</h1>
   <div class="person" id="person"></div>
-
+  <h2>Ersatzpersonen</h2>
+  <div class="person" id="ersatz"></div>
+  <div class="person" id="ersatz"></div>   
   <footer>Diese Seite zeigt jede Woche automatisch eine andere Person aus der Liste.</footer>
 
   <script>
     const personen = [
-      "Anna Müller",
-      "Ben Schneider",
-      "Clara Fischer",
-      "David Weber",
-      "Eva Hoffmann",
-      "Felix Braun",
-      "Greta Schulz"
+      "Levi K.",
+      "Johnatan S.",
+      "Elia",
+      "Samuel H.",
+      "Lukas E.",
+      "Philias",
+      "Silas E"
+      "Juri"
+      "Simon P."
+      "Johannes H"
+      "Anschütz"
     ];
 
     function getWeekNumber(date) {
@@ -56,10 +62,15 @@
 
     const heute = new Date();
     const woche = getWeekNumber(heute);
-    const index = woche % personen.length;
-    const aktuellePerson = personen[index];
 
-    document.getElementById("person").textContent = aktuellePerson;
+    // Hauptperson + 2 Ersatzpersonen (zyklisch)
+    const index1 = woche % personen.length;
+    const index2 = (index1 + 1) % personen.length;
+    const index3 = (index1 + 2) % personen.length;
+
+    document.getElementById("hauptperson").textContent = personen[index1];
+    document.getElementById("ersatz1").textContent = personen[index2];
+    document.getElementById("ersatz2").textContent = personen[index3];
   </script>
 </body>
 </html>
