@@ -2,32 +2,17 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Person der Woche + Ersatz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Person der Woche</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    h1, h2 {
-      color: #333;
+      text-align: center;
+      padding-top: 50px;
     }
     .person {
-      font-size: 1.8em;
+      font-size: 1.5em;
+      margin: 10px;
       color: #0077cc;
-      margin: 10px 0;
-    }
-    footer {
-      position: absolute;
-      bottom: 20px;
-      font-size: 0.9em;
-      color: #666;
     }
   </style>
 </head>
@@ -38,11 +23,10 @@
   <div class="person" id="ersatz1">Lade...</div>
   <div class="person" id="ersatz2">Lade...</div>
 
-  <footer>Die Auswahl basiert auf der aktuellen Kalenderwoche.</footer>
-
   <script>
-    const personen = [
-      	"Levi K.",
+    window.addEventListener("DOMContentLoaded", function () {
+      const personen = [
+    	"Levi K.",
       "Johnatan S.",
       "Elia",
       "Samuel H.",
@@ -53,24 +37,25 @@
       "Simon P.",
       "Johannes H",
       "Anschütz"
-    ];
+      ];
 
-    function getWeekNumber(date) {
-      const firstJan = new Date(date.getFullYear(), 0, 1);
-      const pastDays = Math.floor((date - firstJan) / 86400000);
-      return Math.ceil((pastDays + firstJan.getDay() + 1) / 7);
-    }
+      function getWeekNumber(date) {
+        const start = new Date(date.getFullYear(), 0, 1);
+        const days = Math.floor((date - start) / 86400000);
+        return Math.ceil((days + start.getDay() + 1) / 7);
+      }
 
-    const heute = new Date();
-    const woche = getWeekNumber(heute);
+      const heute = new Date();
+      const woche = getWeekNumber(heute);
 
-    const index1 = woche % personen.length;
-    const index2 = (index1 + 1) % personen.length;
-    const index3 = (index1 + 2) % personen.length;
+      const index1 = woche % personen.length;
+      const index2 = (index1 + 1) % personen.length;
+      const index3 = (index1 + 2) % personen.length;
 
-    document.getElementById("hauptperson").textContent = personen[index1];
-    document.getElementById("ersatz1").textContent = personen[index2];
-    document.getElementById("ersatz2").textContent = personen[index3];
+      document.getElementById("hauptperson").textContent = personen[index1];
+      document.getElementById("ersatz1").textContent = personen[index2];
+      document.getElementById("ersatz2").textContent = personen[index3];
+    });
   </script>
 </body>
 </html>
