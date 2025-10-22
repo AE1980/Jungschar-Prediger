@@ -15,7 +15,7 @@
       height: 100vh;
       margin: 0;
     }
-    h1 {
+    h1, h2 {
       color: #333;
     }
     .person {
@@ -32,17 +32,17 @@
   </style>
 </head>
 <body>
-  <h1>Prediger der nächsten Stunde</h1>
-  <div class="person" id="hauptperson"></div>
+  <h1>Person für nächste Stunde</h1>
+  <div class="person" id="hauptperson">Lade...</div>
   <h2>Ersatzpersonen</h2>
-  <div class="person" id="ersatz1"></div>
-  <div class="person" id="ersatz2"></div>
+  <div class="person" id="ersatz1">Lade...</div>
+  <div class="person" id="ersatz2">Lade...</div>
 
   <footer>Die Auswahl basiert auf der aktuellen Kalenderwoche.</footer>
 
   <script>
     const personen = [
-		"Levi K.",
+      	"Levi K.",
       "Johnatan S.",
       "Elia",
       "Samuel H.",
@@ -53,7 +53,6 @@
       "Simon P.",
       "Johannes H",
       "Anschütz"
-
     ];
 
     function getWeekNumber(date) {
@@ -65,7 +64,6 @@
     const heute = new Date();
     const woche = getWeekNumber(heute);
 
-    // Hauptperson + 2 Ersatzpersonen (zyklisch)
     const index1 = woche % personen.length;
     const index2 = (index1 + 1) % personen.length;
     const index3 = (index1 + 2) % personen.length;
