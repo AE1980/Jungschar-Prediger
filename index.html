@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Prediger der Woche</title>
+  <title>Person der Woche + Ersatz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -19,9 +19,9 @@
       color: #333;
     }
     .person {
-      font-size: 2em;
+      font-size: 1.8em;
       color: #0077cc;
-      margin-top: 20px;
+      margin: 10px 0;
     }
     footer {
       position: absolute;
@@ -32,26 +32,28 @@
   </style>
 </head>
 <body>
-  <h1>👤 Person der Woche</h1>
-  <div class="person" id="person"></div>
+  <h1>Prediger der nächsten Stunde</h1>
+  <div class="person" id="hauptperson"></div>
   <h2>Ersatzpersonen</h2>
-  <div class="person" id="ersatz"></div>
-  <div class="person" id="ersatz"></div>   
-  <footer>Diese Seite zeigt jede Woche automatisch eine andere Person aus der Liste.</footer>
+  <div class="person" id="ersatz1"></div>
+  <div class="person" id="ersatz2"></div>
+
+  <footer>Die Auswahl basiert auf der aktuellen Kalenderwoche.</footer>
 
   <script>
     const personen = [
-      "Levi K.",
+		"Levi K.",
       "Johnatan S.",
       "Elia",
       "Samuel H.",
       "Lukas E.",
       "Philias",
       "Silas E"
-      "Juri"
-      "Simon P."
-      "Johannes H"
+      "Juri",
+      "Simon P.",
+      "Johannes H",
       "Anschütz"
+
     ];
 
     function getWeekNumber(date) {
