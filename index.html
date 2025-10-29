@@ -14,48 +14,90 @@
       margin: 10px;
       color: #0077cc;
     }
+    .alt {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
-  <h1>Person für nächste Stunde</h1>
+  <h1>Person für diese Woche</h1>
   <div class="person" id="hauptperson">Lade...</div>
   <h2>Ersatzpersonen</h2>
   <div class="person" id="ersatz1">Lade...</div>
   <div class="person" id="ersatz2">Lade...</div>
 
+  <div class="alt">
+    <p><strong>Letzte Woche:</strong></p>
+    <p id="alt1">...</p>
+    <p id="alt2">...</p>
+    <p id="alt3">...</p>
+  </div>
+
   <script>
-    window.addEventListener("DOMContentLoaded", function () {
-      const personen = [
-    	"Levi K.",
+    const personen = [
+      "Levi K.",
       "Johnatan S.",
       "Elia",
       "Samuel H.",
       "Lukas E.",
       "Philias",
-      "Silas E",
+      "Silas E.",
       "Juri",
       "Simon P.",
-      "Johannes H",
+      "Johannes H.",
       "Anschütz"
-      ];
+    ];
 
-      function getWeekNumber(date) {
-        const start = new Date(date.getFullYear(), 0, 1);
-        const days = Math.floor((date - start) / 86400000);
-        return Math.ceil((days + start.getDay() + 1) / 7);
+    // Kalenderwoche ab Mittwoch berechnen
+    function getCustomWeek(date) {
+      const adjusted = new Date(date);
+      const day = adjusted.getDay();
+      const offset = (day < 3) ? -7 : 0; // Woche beginnt ab Mittwoch
+      adjusted.setDate(adjusted.getDate() + offset);
+      const firstJan = new Date(adjusted.getFullYear(), 0, 1);
+      const days = Math.floor((adjusted - firstJan) / 86400000);
+      return Math.ceil((days + firstJan.getDay() + 1) / 7);
+    }
+
+    // Zufällige, aber reproduzierbare Auswahl
+    function seededShuffle(array, seed) {
+      let result = array.slice();
+      let rng = mulberry32(seed);
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
       }
+      return result;
+    }
 
-      const heute = new Date();
-      const woche = getWeekNumber(heute);
+    // Seeded Zufallszahlengenerator
+    function mulberry32(a) {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
 
-      const index1 = woche % personen.length;
-      const index2 = (index1 + 1) % personen.length;
-      const index3 = (index1 + 2) % personen.length;
+    const heute = new Date();
+    const jahr = heute.getFullYear();
+    const woche = getCustomWeek(heute);
+    const seedAktuell = jahr * 100 + woche;
+    const seedVorwoche = jahr * 100 + (woche - 1);
 
-      document.getElementById("hauptperson").textContent = personen[index1];
-      document.getElementById("ersatz1").textContent = personen[index2];
-      document.getElementById("ersatz2").textContent = personen[index3];
-    });
+    const aktuell = seededShuffle(personen, seedAktuell);
+    const vorher = seededShuffle(personen, seedVorwoche);
+
+    document.getElementById("hauptperson").textContent = aktuell[0];
+    document.getElementById("ersatz1").textContent = aktuell[1];
+    document.getElementById("ersatz2").textContent = aktuell[2];
+
+    document.getElementById("alt1").textContent = vorher[0];
+    document.getElementById("alt2").textContent = vorher[1];
+    document.getElementById("alt3").textContent = vorher[2];
   </script>
 </body>
 </html>
