@@ -19,18 +19,24 @@
       color: #666;
       margin-top: 30px;
     }
+    h1 {
+  text-decoration: underline;
+  text-decoration-color: #FF0000;
+  text-underline-offset: 4px;
+    }
+
   </style>
 </head>
 <body>
   <h1>Jeden Mittwoch werden neue Personen generiert</h1>
-  <h2>Person für nächste Stunde</h2>
+  <h2>Person für nächste Stunde:</h2>
   <div class="person" id="hauptperson">Lade...</div>
   <h2>Ersatzpersonen</h2>
   <div class="person" id="ersatz1">Lade...</div>
   <div class="person" id="ersatz2">Lade...</div>
 
   <div class="alt">
-    <p><strong:>letzten Mittwoch generierte Personen</strong:></strong></p>
+    <p><strong:>letzten Mittwoch generierte Personen:</strong:></strong></p>
     <p id="alt1">...</p>
     <p id="alt2">...</p>
     <p id="alt3">...</p>
@@ -48,7 +54,7 @@
       "Juri",
       "Simon P.",
       "Johannes H.",
-      "Anschütz"
+      "Noel A."
     ];
 
     // Kalenderwoche ab Mittwoch berechnen
