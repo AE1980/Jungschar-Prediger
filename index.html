@@ -20,24 +20,24 @@
       margin-top: 30px;
     }
     h1 {
-  text-decoration: underline;
-  text-decoration-color: #FF0000;
-  text-underline-offset: 4px;
+      text-decoration: underline;
+      text-decoration-color: #FF0000;
+      text-underline-offset: 4px;
+      color: #FF0000;
     }
-
   </style>
 </head>
 <body>
   <h1>Jeden Mittwoch werden neue Personen generiert</h1>
-  <h2>Person für nächste Stunde:</h2>
+  <h2 id="ueberschrift">Person für nächste Stunde</h2>
   <div class="person" id="hauptperson">Lade...</div>
-  <h2>Ersatzpersonen:</h2>
+  <h2 id="ersatzueberschrift">Ersatzpersonen:</h2>
   <div class="person" id="ersatz1">Lade...</div>
   <div class="person" id="ersatz2">Lade...</div>
 
   <div class="alt">
-    <p><strong:>letzten Mittwoch generierte Personen
-    (Person welche diesen Mittwoch dran ist):</strong:></strong></p>
+    <p><strong>Letzten Mittwoch generierte Personen<br>
+    (Person, welche diesen Mittwoch dran ist):</strong></p>
     <p id="alt1">...</p>
     <p id="alt2">...</p>
     <p id="alt3">...</p>
@@ -58,18 +58,52 @@
       "Noel A."
     ];
 
-    // Kalenderwoche ab Mittwoch berechnen
     function getCustomWeek(date) {
       const adjusted = new Date(date);
       const day = adjusted.getDay();
-      const offset = (day < 3) ? -7 : 0; // Woche beginnt ab Mittwoch
+      const offset = (day < 3) ? -7 : 0;
       adjusted.setDate(adjusted.getDate() + offset);
       const firstJan = new Date(adjusted.getFullYear(), 0, 1);
       const days = Math.floor((adjusted - firstJan) / 86400000);
       return Math.ceil((days + firstJan.getDay() + 1) / 7);
     }
 
-    // Zufällige, aber reproduzierbare Auswahl
+    function getNextWednesday(date) {
+      const day = date.getDay();
+      const diff = (3 - day + 7) % 7 || 7;
+      const nextWednesday = new Date(date);
+      nextWednesday.setDate(date.getDate() + diff);
+      return nextWednesday.toLocaleDateString("de-DE", {
+        weekday: "long",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function getLastOrTodayWednesday(date) {
+      const day = date.getDay();
+      const lastWednesday = new Date(date);
+      if (day === 3) {
+        // heute ist Mittwoch
+        return lastWednesday.toLocaleDateString("de-DE", {
+          weekday: "long",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        });
+      } else {
+        const diff = (day + 4) % 7 || 7;
+        lastWednesday.setDate(date.getDate() - diff);
+        return lastWednesday.toLocaleDateString("de-DE", {
+          weekday: "long",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        });
+      }
+    }
+
     function seededShuffle(array, seed) {
       let result = array.slice();
       let rng = mulberry32(seed);
@@ -80,7 +114,6 @@
       return result;
     }
 
-    // Seeded Zufallszahlengenerator
     function mulberry32(a) {
       return function() {
         let t = a += 0x6D2B79F5;
@@ -106,6 +139,14 @@
     document.getElementById("alt1").textContent = vorher[0];
     document.getElementById("alt2").textContent = vorher[1];
     document.getElementById("alt3").textContent = vorher[2];
+
+    const mittwochDatum = getNextWednesday(heute);
+    document.getElementById("ueberschrift").textContent =
+      `Person für nächste Stunde (${mittwochDatum})`;
+
+    const letzterMittwoch = getLastOrTodayWednesday(heute);
+    document.getElementById("ersatzueberschrift").textContent =
+      `Ersatzpersonen (${letzterMittwoch})`;
   </script>
 </body>
 </html>
