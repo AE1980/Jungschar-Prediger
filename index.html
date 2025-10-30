@@ -31,13 +31,12 @@
   <h1>Jeden Mittwoch werden neue Personen generiert</h1>
   <h2 id="ueberschrift">Person für nächste Stunde</h2>
   <div class="person" id="hauptperson">Lade...</div>
-  <h2 id="ersatzueberschrift">Ersatzpersonen:</h2>
+  <h2>Ersatzpersonen:</h2>
   <div class="person" id="ersatz1">Lade...</div>
   <div class="person" id="ersatz2">Lade...</div>
 
   <div class="alt">
-    <p><strong>Letzten Mittwoch generierte Personen<br>
-    (Person, welche diesen Mittwoch dran ist):</strong></p>
+    <p id="altueberschrift"><strong>Letzten Mittwoch generierte Personen</strong></p>
     <p id="alt1">...</p>
     <p id="alt2">...</p>
     <p id="alt3">...</p>
@@ -85,7 +84,6 @@
       const day = date.getDay();
       const lastWednesday = new Date(date);
       if (day === 3) {
-        // heute ist Mittwoch
         return lastWednesday.toLocaleDateString("de-DE", {
           weekday: "long",
           day: "2-digit",
@@ -145,8 +143,8 @@
       `Person für nächste Stunde (${mittwochDatum})`;
 
     const letzterMittwoch = getLastOrTodayWednesday(heute);
-    document.getElementById("ersatzueberschrift").textContent =
-      `Ersatzpersonen (${letzterMittwoch})`;
+    document.getElementById("altueberschrift").innerHTML =
+      `<strong>Letzten Mittwoch generierte Personen (${letzterMittwoch})</strong>`;
   </script>
 </body>
 </html>
